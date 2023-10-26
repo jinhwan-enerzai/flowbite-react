@@ -30,7 +30,7 @@ export const DropdownItem = <T extends ElementType = 'button'>({
   theme: customTheme = {},
   ...props
 }: DropdownItemProps<T>) => {
-  const { ref, index } = useListItem({ label: typeof children === 'string' ? children : undefined });
+  const { ref } = useListItem({ label: typeof children === 'string' ? children : undefined });
   const { theme: dropdownTheme, dismissOnClick, getItemProps, dismiss } = useDropdownContext();
   const theme = mergeDeep(dropdownTheme?.floating?.item ?? {}, customTheme);
 

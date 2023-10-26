@@ -1,7 +1,7 @@
 'use client';
 
 import type { ExtendedRefs } from '@floating-ui/react';
-import { FloatingFocusManager, FloatingList, useListNavigation, useTypeahead } from '@floating-ui/react';
+import { FloatingFocusManager, FloatingList } from '@floating-ui/react';
 import type {
   ComponentProps,
   Dispatch,
@@ -18,7 +18,7 @@ import { cloneElement, useCallback, useEffect, useMemo, useRef, useState } from 
 import { HiOutlineChevronDown, HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineChevronUp } from 'react-icons/hi';
 import { twMerge } from 'tailwind-merge';
 import { mergeDeep } from '../../helpers/merge-deep';
-import { useBaseFLoating, useFloatingInteractions } from '../../helpers/use-floating';
+import { useBaseFloating, useFloatingInteractions } from '../../helpers/use-floating';
 import { getTheme } from '../../theme-store';
 import type { DeepPartial } from '../../types';
 import { Button, type ButtonProps } from '../Button';
@@ -123,8 +123,6 @@ const DropdownComponent: FC<DropdownProps> = ({
   ...props
 }) => {
   const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined);
   const elementsRef = useRef<Array<HTMLElement | null>>([]);
   const labelsRef = useRef<Array<string | null>>([]);
@@ -141,47 +139,20 @@ const DropdownComponent: FC<DropdownProps> = ({
     ...buttonProps
   } = theirProps;
 
-  const handleSelect = useCallback((index: number | null) => {
-    setSelectedIndex(index);
+  const dismiss = useCallback(() => {
     setOpen(false);
   }, []);
 
-  const handleTypeaheadMatch = useCallback(
-    (index: number | null) => {
-      if (open) {
-        setActiveIndex(index);
-      } else {
-        handleSelect(index);
-      }
-    },
-    [open, handleSelect],
-  );
-
-  const { context, floatingStyles, refs } = useBaseFLoating<HTMLButtonElement>({
+  const { context, floatingStyles, refs } = useBaseFloating<HTMLButtonElement>({
     open,
     setOpen,
     placement,
-  });
-
-  const listNav = useListNavigation(context, {
-    listRef: elementsRef,
-    activeIndex,
-    selectedIndex,
-    onNavigate: setActiveIndex,
-  });
-
-  const typeahead = useTypeahead(context, {
-    listRef: labelsRef,
-    activeIndex,
-    selectedIndex,
-    onMatch: handleTypeaheadMatch,
   });
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useFloatingInteractions({
     context,
     role: 'menu',
     trigger,
-    interactions: [listNav, typeahead],
   });
 
   const Icon = useMemo(() => {
@@ -208,10 +179,9 @@ const DropdownComponent: FC<DropdownProps> = ({
       <DropdownContext.Provider
         value={{
           theme,
-          activeIndex,
           dismissOnClick,
           getItemProps,
-          handleSelect,
+          dismiss,
         }}
       >
         {open && (

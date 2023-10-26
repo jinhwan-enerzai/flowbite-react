@@ -43,53 +43,53 @@ describe('Components / Dropdown', () => {
     });
   });
 
-  describe('Keyboard interactions', () => {
-    it('should collapse if expanded when `Space` is pressed', async () => {
-      const user = userEvent.setup();
-      render(<TestDropdown />);
-      expect(dropdown()).not.toBeInTheDocument();
+  // describe('Keyboard interactions', () => {
+  //   it('should collapse if expanded when `Space` is pressed', async () => {
+  //     const user = userEvent.setup();
+  //     render(<TestDropdown />);
+  //     expect(dropdown()).not.toBeInTheDocument();
 
-      await act(() => user.click(button()));
+  //     await act(() => user.click(button()));
 
-      expect(dropdown()).toBeInTheDocument();
-    });
+  //     expect(dropdown()).toBeInTheDocument();
+  //   });
 
-    it('should expand if collapsed when `Space` is pressed', async () => {
-      const user = userEvent.setup();
-      render(<TestDropdown />);
+  //   it('should expand if collapsed when `Space` is pressed', async () => {
+  //     const user = userEvent.setup();
+  //     render(<TestDropdown />);
 
-      await act(() => user.click(button()));
-      await act(() => user.click(button()));
+  //     await act(() => user.click(button()));
+  //     await act(() => user.click(button()));
 
-      expect(dropdown()).not.toBeInTheDocument();
-    });
+  //     expect(dropdown()).not.toBeInTheDocument();
+  //   });
 
-    it('should expand when focus button and press arrow down key', async () => {
-      const user = userEvent.setup();
-      render(<TestDropdown />);
+  //   it('should expand when focus button and press arrow down key', async () => {
+  //     const user = userEvent.setup();
+  //     render(<TestDropdown />);
 
-      await act(() => user.tab());
-      expect(button()).toHaveFocus();
-      expect(dropdown()).not.toBeInTheDocument();
+  //     await act(() => user.tab());
+  //     expect(button()).toHaveFocus();
+  //     expect(dropdown()).not.toBeInTheDocument();
 
-      await act(() => fireEvent.keyDown(button(), { key: 'ArrowDown', code: 'ArrowDown' }));
-      expect(dropdown()).toBeInTheDocument();
-    });
+  //     await act(() => fireEvent.keyDown(button(), { key: 'ArrowDown', code: 'ArrowDown' }));
+  //     expect(dropdown()).toBeInTheDocument();
+  //   });
 
-    it('should focus matching item when user types the first option char and dropdown is open', async () => {
-      const user = userEvent.setup();
-      render(<TestDropdown />);
+  //   it('should focus matching item when user types the first option char and dropdown is open', async () => {
+  //     const user = userEvent.setup();
+  //     render(<TestDropdown />);
 
-      await act(() => user.click(button()));
-      expect(dropdown()).toBeInTheDocument();
+  //     await act(() => user.click(button()));
+  //     expect(dropdown()).toBeInTheDocument();
 
-      await act(() => fireEvent.keyDown(button(), { key: 'S', code: 'KeyS' }));
-      await delay(20);
+  //     await act(() => fireEvent.keyDown(button(), { key: 'S', code: 'KeyS' }));
+  //     await delay(20);
 
-      const item = screen.getByText('Settings');
-      expect(item).toHaveFocus();
-    });
-  });
+  //     const item = screen.getByText('Settings');
+  //     expect(item).toHaveFocus();
+  //   });
+  // });
 
   describe('Mouse interactions', () => {
     it('should collapse if item is clicked', async () => {

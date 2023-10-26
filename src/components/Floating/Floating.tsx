@@ -5,7 +5,7 @@ import { autoUpdate, useFocus } from '@floating-ui/react';
 import type { ComponentProps, FC, PropsWithChildren, ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useBaseFLoating, useFloatingInteractions } from '../../helpers/use-floating';
+import { useBaseFloating, useFloatingInteractions } from '../../helpers/use-floating';
 import { getArrowPlacement } from './helpers';
 
 export interface FlowbiteFloatingTheme {
@@ -64,7 +64,7 @@ export const Floating: FC<FloatingProps> = ({
   const arrowRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
-  const floatingProperties = useBaseFLoating({
+  const floatingProperties = useBaseFloating({
     open,
     placement,
     arrowRef,

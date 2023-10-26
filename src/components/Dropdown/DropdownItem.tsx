@@ -31,8 +31,7 @@ export const DropdownItem = <T extends ElementType = 'button'>({
   ...props
 }: DropdownItemProps<T>) => {
   const { ref, index } = useListItem({ label: typeof children === 'string' ? children : undefined });
-  const { theme: dropdownTheme, activeIndex, dismissOnClick, getItemProps, handleSelect } = useDropdownContext();
-  const isActive = activeIndex === index;
+  const { theme: dropdownTheme, dismissOnClick, getItemProps, dismiss } = useDropdownContext();
   const theme = mergeDeep(dropdownTheme?.floating?.item ?? {}, customTheme);
 
   const theirProps = props as ButtonBaseProps<T>;
@@ -46,10 +45,9 @@ export const DropdownItem = <T extends ElementType = 'button'>({
         {...getItemProps({
           onClick: () => {
             onClick && onClick();
-            dismissOnClick && handleSelect(null);
+            dismissOnClick && dismiss();
           },
         })}
-        tabIndex={isActive ? 0 : -1}
       >
         {Icon && <Icon className={theme.icon} />}
         {children}

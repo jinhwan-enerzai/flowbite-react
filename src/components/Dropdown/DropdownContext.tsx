@@ -7,10 +7,9 @@ import type { FlowbiteDropdownTheme } from './Dropdown';
 
 type DropdownContext = {
   theme?: DeepPartial<FlowbiteDropdownTheme>;
-  activeIndex: number | null;
   dismissOnClick?: boolean;
   getItemProps: ReturnType<typeof useInteractions>['getItemProps'];
-  handleSelect: (index: number | null) => void;
+  dismiss: () => void;
 };
 
 export const DropdownContext = createContext<DropdownContext | undefined>(undefined);
